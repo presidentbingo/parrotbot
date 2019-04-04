@@ -41,7 +41,7 @@ logging.basicConfig(
     handlers=handlers
 )
 
-ctypes.windll.kernel32.SetConsoleTitleW("ParrotBot INPUT")
+#ctypes.windll.kernel32.SetConsoleTitleW("ParrotBot INPUT")
 
 client = discord.Client()
 
