@@ -54,9 +54,9 @@ PREFIX = '>parrot>'
 AFTER_DELETE_MESSAGE_TIME = 15
 
 COMMAND_LIST = [
-    [PREFIX + 'help ❓', 'shows commands'], [PREFIX + 'img 🖼', 'searches for an image'],
-    [PREFIX + 'moveout 🏹', 'moves out a member'], [PREFIX + 'flip 🔴', 'flips a coin'],
-    [PREFIX + 'clear 🚮', 'clears amount of messages'], [PREFIX + 'roll 🎲', 'rolls a die'],
+    [PREFIX + 'help :question:', 'shows commands'], [PREFIX + 'img :frame_photo:', 'searches for an image'],
+    [PREFIX + 'moveout :bow_and_arrow:', 'moves out a member'], [PREFIX + 'flip :red_circle:', 'flips a coin'],
+    [PREFIX + 'clear :put_litter_in_its_place:', 'clears amount of messages'], [PREFIX + 'roll :game_die:', 'rolls a die'],
     [PREFIX + 'watchchannel :bird:', 'manage watched channels'], [PREFIX + 'outputchannel :bird:', 'manage output channels'],
     [PREFIX + 'watchuser :bird:', 'manage watched users'], [PREFIX + 'pair :bird:', 'manage paired channels'], [PREFIX + 'watchalluserchannel :bird:', 'manage watched all user channels']
 ]
