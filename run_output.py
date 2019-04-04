@@ -159,11 +159,11 @@ async def on_ready():
 async def on_voice_state_update(before, after):
     if before.voice_channel != after.voice_channel:
         if before.voice_channel != None and after.voice_channel != None:
-            print('❗ ' + before.display_name + ' has switched from \'' + before.voice_channel.name + '\' to \'' + after.voice_channel.name + '\'.')
+            print('! ' + before.display_name + ' has switched from \'' + before.voice_channel.name + '\' to \'' + after.voice_channel.name + '\'.')
         elif before.voice_channel != None:
-            print('❗ ' + before.display_name + ' has left \'' + before.voice_channel.name + '\'.')
+            print('! ' + before.display_name + ' has left \'' + before.voice_channel.name + '\'.')
         elif after.voice_channel != None:
-            print('❗ ' + after.display_name + ' has joined \'' + after.voice_channel.name + '\'.')
+            print('! ' + after.display_name + ' has joined \'' + after.voice_channel.name + '\'.')
 
 @client.event
 async def on_message(message):
@@ -212,7 +212,7 @@ async def on_message(message):
             except Exception as ex:
                 print("ERROR WRITING TO CHANNEL ID: " + outChannel)
                 print(ex)
-            print('❗ ' + fixed_display_name + ':')
+            print('! ' + fixed_display_name + ':')
             if fixed_message == '' and len(message.attachments) > 0:
                 print('\t➡ [attachment]')
             else:
@@ -247,7 +247,7 @@ async def on_message(message):
             bot_sent_message = await client.send_message(message.channel, embed=embed)
             await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME + 15)
             await client.delete_message(bot_sent_message)
-            print('❗ ' + fixed_display_name + ' has used the \'help\' command.')
+            print('! ' + fixed_display_name + ' has used the \'help\' command.')
 
     # ------------------------------------------------------------- pair ------------------------------------------------------------- #
     
@@ -264,13 +264,13 @@ async def on_message(message):
 
             if len(cut_message) == 0:
                 bot_sent_message = await client.send_message(message.channel, message.author.mention + ', please enter a valid argument for the `' + COMMAND_NAME + '` command. Valid arguments: `add` (separate the two channels with a comma , --> first channel: watched, second channel: output)), `remove` (type index number from list), `list`')
-                print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
                 return
             elif cut_message[0] != ' ':
                 bot_sent_message = await client.send_message(message.channel, message.author.mention + ', please enter a valid argument for the `' + COMMAND_NAME + '` command. Valid arguments: `add` (separate the two channels with a comma , --> first channel: watched, second channel: output)), `remove` (type index number from list), `list`')
-                print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
                 return
@@ -293,7 +293,7 @@ async def on_message(message):
                 bot_sent_message = await client.send_message(message.channel, 'Added channel ids `' + cut_message[4:] + '` to the currently paired channels')
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
-                print('❗ ' + fixed_display_name + ' has added channel ids ' + cut_message[4:].replace(' ', '').replace(',', ' to ') + ' to the currently paired channels')
+                print('! ' + fixed_display_name + ' has added channel ids ' + cut_message[4:].replace(' ', '').replace(',', ' to ') + ' to the currently paired channels')
             elif "remove" in cut_message:
                 if int(cut_message[7:]) < len(CONFIG_PAIRS) and int(cut_message[7:]) > -1:
                     del CONFIG_PAIRS[int(cut_message[7:])]
@@ -302,12 +302,12 @@ async def on_message(message):
                     bot_sent_message = await client.send_message(message.channel, 'Removed list id `' + cut_message[7:] + '` from the currently paired channels')
                     await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                     await client.delete_message(bot_sent_message)
-                    print('❗ ' + fixed_display_name + ' has removed list id ' + cut_message[7:] + ' from the currently paired channels')
+                    print('! ' + fixed_display_name + ' has removed list id ' + cut_message[7:] + ' from the currently paired channels')
                 else:
                     bot_sent_message = await client.send_message(message.channel, 'Could not find list id `' + cut_message[7:] + '` in the currently paired channels list')
                     await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                     await client.delete_message(bot_sent_message)
-                    print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                    print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
             elif "list" in cut_message:
                 author_url = message.author.avatar_url
                     
@@ -344,10 +344,10 @@ async def on_message(message):
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)    #to delete both messages, you must make a list of the messages as being sent-> then delete each item in list
                 for message in bot_sent_messages:
                     await client.delete_message(message)
-                print('❗ ' + fixed_display_name + ' has listed the currently paired channels')
+                print('! ' + fixed_display_name + ' has listed the currently paired channels')
             else:
                 bot_sent_message = await client.send_message(message.channel, message.author.mention + ', please enter a valid argument for the `' + COMMAND_NAME + '` command. Valid arguments: `add` (separate the two channels with a comma , --> first channel: watched, second channel: output), `remove` (type index number from list), `list`')
-                print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
                 return
@@ -367,13 +367,13 @@ async def on_message(message):
 
             if len(cut_message) == 0:
                 bot_sent_message = await client.send_message(message.channel, message.author.mention + ', please enter a valid argument for the `' + COMMAND_NAME + '` command. Valid arguments: `add`, `remove` (type index number from list), `list`')
-                print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
                 return
             elif cut_message[0] != ' ':
                 bot_sent_message = await client.send_message(message.channel, message.author.mention + ', please enter a valid argument for the `' + COMMAND_NAME + '` command. Valid arguments: `add`, `remove` (type index number from list), `list`')
-                print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
                 return
@@ -388,7 +388,7 @@ async def on_message(message):
                 bot_sent_message = await client.send_message(message.channel, 'Added channel id `' + cut_message[4:] + '` to the currently watched channels')
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
-                print('❗ ' + fixed_display_name + ' has added channel id ' + cut_message[4:] + ' to the currently watched channels')
+                print('! ' + fixed_display_name + ' has added channel id ' + cut_message[4:] + ' to the currently watched channels')
             elif "remove" in cut_message:
                 if int(cut_message[7:]) < len(CONFIG_WATCHED_CHANNELS) and int(cut_message[7:]) > -1:                
                     del CONFIG_WATCHED_CHANNELS[int(cut_message[7:])]
@@ -397,12 +397,12 @@ async def on_message(message):
                     bot_sent_message = await client.send_message(message.channel, 'Removed list id `' + cut_message[7:] + '` from the currently watched channels')
                     await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                     await client.delete_message(bot_sent_message)
-                    print('❗ ' + fixed_display_name + ' has removed list id ' + cut_message[7:] + ' from the currently watched channels')
+                    print('! ' + fixed_display_name + ' has removed list id ' + cut_message[7:] + ' from the currently watched channels')
                 else:
                     bot_sent_message = await client.send_message(message.channel, 'Could not find list id `' + cut_message[7:] + '` in the currently watched channels list')
                     await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                     await client.delete_message(bot_sent_message)
-                    print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                    print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
             elif "list" in cut_message:
                 author_url = message.author.avatar_url
                     
@@ -439,10 +439,10 @@ async def on_message(message):
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)    #to delete both messages, you must make a list of the messages as being sent-> then delete each item in list
                 for message in bot_sent_messages:
                     await client.delete_message(message)
-                print('❗ ' + fixed_display_name + ' has listed the currently watched channels')
+                print('! ' + fixed_display_name + ' has listed the currently watched channels')
             else:
                 bot_sent_message = await client.send_message(message.channel, message.author.mention + ', please enter a valid argument for the `' + COMMAND_NAME + '` command. Valid arguments: `add`, `remove` (type index number from list), `list`')
-                print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
                 return
@@ -462,13 +462,13 @@ async def on_message(message):
 
             if len(cut_message) == 0:
                 bot_sent_message = await client.send_message(message.channel, message.author.mention + ', please enter a valid argument for the `' + COMMAND_NAME + '` command. Valid arguments: `add`, `remove` (type index number from list), `list`')
-                print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
                 return
             elif cut_message[0] != ' ':
                 bot_sent_message = await client.send_message(message.channel, message.author.mention + ', please enter a valid argument for the `' + COMMAND_NAME + '` command. Valid arguments: `add`, `remove` (type index number from list), `list`')
-                print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
                 return
@@ -483,7 +483,7 @@ async def on_message(message):
                 bot_sent_message = await client.send_message(message.channel, 'Added channel id `' + cut_message[4:] + '` to the currently watched channels')
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
-                print('❗ ' + fixed_display_name + ' has added channel id ' + cut_message[4:] + ' to the currently watched all users channels')
+                print('! ' + fixed_display_name + ' has added channel id ' + cut_message[4:] + ' to the currently watched all users channels')
             elif "remove" in cut_message:
                 if int(cut_message[7:]) < len(CONFIG_WATCHED_ALL_USERS_CHANNELS) and int(cut_message[7:]) > -1:                
                     del CONFIG_WATCHED_ALL_USERS_CHANNELS[int(cut_message[7:])]
@@ -492,12 +492,12 @@ async def on_message(message):
                     bot_sent_message = await client.send_message(message.channel, 'Removed list id `' + cut_message[7:] + '` from the currently watched all users channels')
                     await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                     await client.delete_message(bot_sent_message)
-                    print('❗ ' + fixed_display_name + ' has removed list id ' + cut_message[7:] + ' from the currently watched all users channels')
+                    print('! ' + fixed_display_name + ' has removed list id ' + cut_message[7:] + ' from the currently watched all users channels')
                 else:
                     bot_sent_message = await client.send_message(message.channel, 'Could not find list id `' + cut_message[7:] + '` in the currently watched all users channels list')
                     await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                     await client.delete_message(bot_sent_message)
-                    print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                    print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
             elif "list" in cut_message:
                 author_url = message.author.avatar_url
                     
@@ -534,10 +534,10 @@ async def on_message(message):
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)    #to delete both messages, you must make a list of the messages as being sent-> then delete each item in list
                 for message in bot_sent_messages:
                     await client.delete_message(message)
-                print('❗ ' + fixed_display_name + ' has listed the currently watched all users channels')
+                print('! ' + fixed_display_name + ' has listed the currently watched all users channels')
             else:
                 bot_sent_message = await client.send_message(message.channel, message.author.mention + ', please enter a valid argument for the `' + COMMAND_NAME + '` command. Valid arguments: `add`, `remove` (type index number from list), `list`')
-                print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
                 return
@@ -557,13 +557,13 @@ async def on_message(message):
 
             if len(cut_message) == 0:
                 bot_sent_message = await client.send_message(message.channel, message.author.mention + ', please enter a valid argument for the `' + COMMAND_NAME + '` command. Valid arguments: `add`, `remove` (type index number from list), `list`')
-                print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
                 return
             elif cut_message[0] != ' ':
                 bot_sent_message = await client.send_message(message.channel, message.author.mention + ', please enter a valid argument for the `' + COMMAND_NAME + '` command. Valid arguments: `add`, `remove` (type index number from list), `list`')
-                print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
                 return
@@ -578,7 +578,7 @@ async def on_message(message):
                 bot_sent_message = await client.send_message(message.channel, 'Added user id `' + cut_message[4:] + '` to the currently watched users')
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
-                print('❗ ' + fixed_display_name + ' has added user id ' + cut_message[4:] + ' to the currently watched users')
+                print('! ' + fixed_display_name + ' has added user id ' + cut_message[4:] + ' to the currently watched users')
             elif "remove" in cut_message:
                 if int(cut_message[7:]) < len(CONFIG_WATCHED_USERS) and int(cut_message[7:]) > -1:
                     del CONFIG_WATCHED_USERS[int(cut_message[7:])]
@@ -587,12 +587,12 @@ async def on_message(message):
                     bot_sent_message = await client.send_message(message.channel, 'Removed user list id `' + cut_message[7:] + '` from the currently watched users')
                     await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                     await client.delete_message(bot_sent_message)
-                    print('❗ ' + fixed_display_name + ' has removed user list id ' + cut_message[7:] + ' from the currently watched channels')
+                    print('! ' + fixed_display_name + ' has removed user list id ' + cut_message[7:] + ' from the currently watched channels')
                 else:
                     bot_sent_message = await client.send_message(message.channel, 'Could not find user list id `' + cut_message[7:] + '` in the currently watched users list')
                     await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                     await client.delete_message(bot_sent_message)
-                    print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                    print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
             elif "list" in cut_message:
                 author_url = message.author.avatar_url
                     
@@ -633,10 +633,10 @@ async def on_message(message):
                 bot_sent_message = await client.send_message(message.channel, embed=embed)
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
-                print('❗ ' + fixed_display_name + ' has listed the currently watched users')
+                print('! ' + fixed_display_name + ' has listed the currently watched users')
             else:
                 bot_sent_message = await client.send_message(message.channel, message.author.mention + ', please enter a valid argument for the `' + COMMAND_NAME + '` command. Valid arguments: `add`, `remove` (type index number from list), `list`')
-                print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
                 return
@@ -656,13 +656,13 @@ async def on_message(message):
 
             if len(cut_message) == 0:
                 bot_sent_message = await client.send_message(message.channel, message.author.mention + ', please enter a valid argument for the `' + COMMAND_NAME + '` command. Valid arguments: `add`, `remove` (type index number from list), `list`')
-                print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
                 return
             elif cut_message[0] != ' ':
                 bot_sent_message = await client.send_message(message.channel, message.author.mention + ', please enter a valid argument for the `' + COMMAND_NAME + '` command. Valid arguments: `add`, `remove` (type index number from list), `list`')
-                print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
                 return
@@ -677,7 +677,7 @@ async def on_message(message):
                 bot_sent_message = await client.send_message(message.channel, 'Added channel id `' + cut_message[4:] + '` to the current output channels')
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
-                print('❗ ' + fixed_display_name + ' has added channel id ' + cut_message[4:] + ' to the current output channels')
+                print('! ' + fixed_display_name + ' has added channel id ' + cut_message[4:] + ' to the current output channels')
             elif "remove" in cut_message:
                 if int(cut_message[7:]) < len(CONFIG_OUTPUT_CHANNELS) and int(cut_message[7:]) > -1:
                     del CONFIG_OUTPUT_CHANNELS[int(cut_message[7:])]
@@ -686,12 +686,12 @@ async def on_message(message):
                     bot_sent_message = await client.send_message(message.channel, 'Removed list id `' + cut_message[7:] + '` from the current output channels')
                     await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                     await client.delete_message(bot_sent_message)
-                    print('❗ ' + fixed_display_name + ' has removed list id ' + cut_message[7:] + ' from the currently watched channels')
+                    print('! ' + fixed_display_name + ' has removed list id ' + cut_message[7:] + ' from the currently watched channels')
                 else:
                     bot_sent_message = await client.send_message(message.channel, 'Could not find list id `' + cut_message[7:] + '` in the current output channels list')
                     await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                     await client.delete_message(bot_sent_message)
-                    print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                    print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
             elif "list" in cut_message:
                 author_url = message.author.avatar_url
                     
@@ -729,10 +729,10 @@ async def on_message(message):
                 for message in bot_sent_messages:
                     await client.delete_message(message)
 
-                print('❗ ' + fixed_display_name + ' has listed the current output channels')
+                print('! ' + fixed_display_name + ' has listed the current output channels')
             else:
                 bot_sent_message = await client.send_message(message.channel, message.author.mention + ', please enter a valid argument for the `' + COMMAND_NAME + '` command. Valid arguments: `add`, `remove` (type index number from list), `list`')
-                print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
                 return
@@ -752,13 +752,13 @@ async def on_message(message):
 
             if len(cut_message) == 0:
                 bot_sent_message = await client.send_message(message.channel, message.author.mention + ', please enter a valid keyword for the `' + COMMAND_NAME + '` command.')
-                print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
                 return
             elif cut_message[0] != ' ':
                 bot_sent_message = await client.send_message(message.channel, message.author.mention + ', please enter a valid keyword for the `' + COMMAND_NAME + '` command.')
-                print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
                 return
@@ -771,12 +771,12 @@ async def on_message(message):
                 link = dictFromJSON['items'][0]['link']
 
                 await client.send_message(message.channel, message.author.mention + ', image result for `' + cut_message + '`: ' + link)
-                print('❗ ' + fixed_display_name + ' has searched for the image:')
+                print('! ' + fixed_display_name + ' has searched for the image:')
                 print('\t➡ \'' + fixed_cut_message + '\'')
             
             except:
                 bot_sent_message = await client.send_message(message.channel, message.author.mention + ', error whilst searching for `' + cut_message + '`.')
-                print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
                 return
@@ -796,13 +796,13 @@ async def on_message(message):
 
             if len(cut_message) == 0:
                 bot_sent_message = await client.send_message(message.channel, message.author.mention + ', please enter a valid member for the `' + COMMAND_NAME + '` command.')
-                print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
                 return
             elif cut_message[0] != ' ':
                 bot_sent_message = await client.send_message(message.channel, message.author.mention + ', please enter a valid member for the `' + COMMAND_NAME + '` command.')
-                print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
                 return
@@ -821,7 +821,7 @@ async def on_message(message):
 
             except:
                 bot_sent_message = await client.send_message(message.channel, message.author.mention + ', please type a valid user.')
-                print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
                 return
@@ -841,13 +841,13 @@ async def on_message(message):
 
             if len(cut_message) == 0:
                 bot_sent_message = await client.send_message(message.channel, message.author.mention + ', please enter a valid channel name for the `' + COMMAND_NAME + '` command.')
-                print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
                 return
             elif cut_message[0] != ' ':
                 bot_sent_message = await client.send_message(message.channel, message.author.mention + ', please enter a valid channel name for the `' + COMMAND_NAME + '` command.')
-                print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
                 return
@@ -873,12 +873,12 @@ async def on_message(message):
                 encoded_moved_member_names = [x.encode('ascii', errors='replace') for x in moved_member_names]
                 fixed_moved_member_names = [x.decode('ascii', errors='replace') for x in encoded_moved_member_names]
 
-                print('❗ ' + fixed_display_name + ' has moved', len(message.author.voice.voice_channel.voice_members), 'member(s) to the voice channel:', final_channel.name, '')
+                print('! ' + fixed_display_name + ' has moved', len(message.author.voice.voice_channel.voice_members), 'member(s) to the voice channel:', final_channel.name, '')
                 print('\t➡ \'' + ' & '.join(fixed_moved_member_names) + '\'')
 
             except:
                 bot_sent_message = await client.send_message(message.channel, message.author.mention + ', please type a valid channel.')
-                print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
                 return
@@ -912,7 +912,7 @@ async def on_message(message):
             else:
                 await client.edit_message(tmp, message.author.mention + ', you\'ve landed on :red_circle: tails!')
                 flip_title = 'tails'
-            print('❗ ' + fixed_display_name + ' has flipped a coin and landed on: ' + flip_title)
+            print('! ' + fixed_display_name + ' has flipped a coin and landed on: ' + flip_title)
 
     # ------------------------------------------------------------- roll ------------------------------------------------------------- #
     
@@ -941,7 +941,7 @@ async def on_message(message):
             await client.edit_message(tmp, '♣ ♥ ♠ ♦')
             await asyncio.sleep(0.5)
             await client.edit_message(tmp, message.author.mention + ', you\'ve rolled a :game_die: ' + str(random_roll) + '!')
-            print('❗ ' + fixed_display_name + ' has rolled a dice and landed on: ' + str(random_roll))
+            print('! ' + fixed_display_name + ' has rolled a dice and landed on: ' + str(random_roll))
 
     # ------------------------------------------------------------- clear ------------------------------------------------------------- #
     
@@ -958,13 +958,13 @@ async def on_message(message):
 
             if len(cut_message) == 0:
                 bot_sent_message = await client.send_message(message.channel, message.author.mention + ', please enter a valid number for the `' + COMMAND_NAME + '` command.')
-                print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
                 return
             elif cut_message[0] != ' ':
                 bot_sent_message = await client.send_message(message.channel, message.author.mention + ', please enter a valid number for the `' + COMMAND_NAME + '` command.')
-                print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
                 return
@@ -984,17 +984,17 @@ async def on_message(message):
             
                 if len(msgs) == 1:
                     await client.delete_message(msgs[0])
-                    print('❗ ' + fixed_display_name + ' has cleared', number, 'message:')
+                    print('! ' + fixed_display_name + ' has cleared', number, 'message:')
                     print('\t➡ \'' + fixed_msgs[0] + '\'')
                 else:
                     await client.delete_messages(msgs)
-                    print('❗ ' + fixed_display_name + ' has cleared', number, 'messages:')
+                    print('! ' + fixed_display_name + ' has cleared', number, 'messages:')
                     for x in fixed_msgs:
                         print('\t➡ \'' + x + '\'')
                     
             except ValueError:
                 bot_sent_message = await client.send_message(message.channel, message.author.mention + ', please type a value from 1-100.')
-                print('❗ ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
+                print('! ' + fixed_display_name + ' (' + fixed_channel_name + '): ' + fixed_message)
                 await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME)
                 await client.delete_message(bot_sent_message)
                 return
