@@ -189,6 +189,32 @@ async def on_message(message):
 
                 embed = discord.Embed.from_data(curEmbed)
 
+
+                lookForLink = 'http://quicktasks.snkrsol.com/manager'
+                lookForName = 'QT'
+                ourLink = 'https://kurinotify.github.io/kurinotify/'
+                
+                for x in range(0, len(embed.fields)):
+                    if "StockX" in str(embed.fields[x]):
+                        print(embed.fields[x])
+                        startSearchAt = str(embed.fields[x]).find('https://stockx.com/')
+                        STARTstockXLink = str(embed.fields[x])[startSearchAt:]
+                        stockXLink = STARTstockXLink[:STARTstockXLink.find(')')]
+                        embed.set_field_at(x, name='LINKS', value='[StockX](' + stockXLink + ')' + ' | ' + '[QuickTask](' + ourLink + ')', inline=True)
+                        print("~~~~~~~changed! >")
+                        print(embed.fields[x])
+                    else:                        
+                        if lookForLink in str(embed.fields[x]):
+                            print(embed.fields[x])
+                            embed.set_field_at(x, name='QuickTask:', value='[QuickTask](' + ourLink + ')', inline=True)
+                            print("~~~~~~~changed! >")
+                            print(embed.fields[x])
+                        elif lookForName in str(embed.fields[x]):
+                            print(embed.fields[x])
+                            embed.set_field_at(x, name='QuickTask:', value='[QuickTask](' + ourLink + ')', inline=True)
+                            print("~~~~~~~changed! >")
+                            print(embed.fields[x])
+                    
             else:
                 embed = discord.Embed(description=fixed_message, color=0xfbb35a, timestamp=datetime.datetime.utcnow())
                 if len(message.attachments) > 0:
@@ -203,8 +229,9 @@ async def on_message(message):
                                     if attachment['filename'].lower().find('.gif') == -1:
                                         print('NON-IMAGE FILE DETECTED... sending file as link')
                                         embed.description = fixed_message + '\n\nAttached file: ' + url
-                embed.set_author(name=message.author.display_name, icon_url=author_url)
-
+                #embed.set_author(name=message.author.display_name, icon_url=author_url)
+                embed.set_author(name="Kuri Notify", icon_url="https://kurinotify.github.io/kurinotify/AVI.png")
+                embed.color = 0x003366
             try:
                 outChannel = message.content
                 
@@ -240,11 +267,42 @@ async def on_message(message):
 
             #command_list_description = ', '.join(COMMAND_LIST)
 
-            embed = discord.Embed(title="Current Commands:", color=0x00cc66, timestamp=datetime.datetime.utcnow())
+            embed = discord.Embed(title="Current Commands:", color=0x003366, timestamp=datetime.datetime.utcnow())
             embed.set_author(name=message.author.display_name, icon_url=author_url)
+            embed.set_author(name="Kuri Notify", icon_url="https://kurinotify.github.io/kurinotify/AVI.png")
+            embed.color = 0x003366
             for x in range(0, len(COMMAND_LIST)):
                 embed.add_field(name=COMMAND_LIST[x][0], value=COMMAND_LIST[x][1], inline=True)
-            bot_sent_message = await client.send_message(message.channel, embed=embed)
+            #embed.add_field(name=COMMAND_LIST[x][0], value='[StockX](https://stockx.com/search?s=Nike%20Air%20Wildwood%20ACG%20-%20Desert%20Dust%20/%20Game%20Royal%20/%20Dusty%20Peach)', inline=True)
+            
+            lookForLink = 'http://quicktasks.snkrsol.com/manager'
+            lookForName = 'QT'
+            ourLink = 'https://kurinotify.github.io/kurinotify/'
+            
+            for x in range(0, len(embed.fields)):
+                if "StockX" in str(embed.fields[x]):
+                    print(embed.fields[x])
+                    startSearchAt = str(embed.fields[x]).find('https://stockx.com/')
+                    STARTstockXLink = str(embed.fields[x])[startSearchAt:]
+                    stockXLink = STARTstockXLink[:STARTstockXLink.find(')')]
+                    embed.set_field_at(x, name='LINKS', value='[StockX](' + stockXLink + ')' + ' | ' + '[QuickTask](' + ourLink + ')', inline=True)
+                    print("~~~~~~~changed! >")
+                    print(embed.fields[x])
+                else:                        
+                    if lookForLink in str(embed.fields[x]):
+                        print(embed.fields[x])
+                        embed.set_field_at(x, name='QuickTask:', value='[QuickTask](' + ourLink + ')', inline=True)
+                        print("~~~~~~~changed! >")
+                        print(embed.fields[x])
+                    elif lookForName in str(embed.fields[x]):
+                        print(embed.fields[x])
+                        embed.set_field_at(x, name='QuickTask:', value='[QuickTask](' + ourLink + ')', inline=True)
+                        print("~~~~~~~changed! >")
+                        print(embed.fields[x])
+
+
+
+            bot_sent_message = await client.send_message(message.channel, embed=embed)                    
             await asyncio.sleep(AFTER_DELETE_MESSAGE_TIME + 15)
             await client.delete_message(bot_sent_message)
             print('! ' + fixed_display_name + ' has used the \'help\' command.')
